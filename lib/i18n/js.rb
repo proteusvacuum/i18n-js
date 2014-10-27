@@ -103,7 +103,9 @@ module I18n
       File.open(file, "w+") do |f|
         f << %(I18n.translations || (I18n.translations = {});\n)
         Utils.strip_keys_with_nil_values(translations).each do |locale, translations_for_locale|
-          f << %(I18n.translations["#{locale}"] = #{translations_for_locale.to_json};\n);
+          f << %(var translations_#{locale} = #{translations_for_locale.to_json};\n)
+          f << %(if (I18n.translations.hasOwnProperty("#{locale}")){ I18n.extend(I18n.translations["#{locale}"], translations_#{locale}); } )
+          f << %(else { I18n.translations["#{locale}"] = translations_#{locale}; }\n)
         end
       end
     end

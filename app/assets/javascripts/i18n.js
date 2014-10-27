@@ -793,6 +793,14 @@
     return number;
   };
 
+  //Utility function to extend translation objects
+  I18n.extend = function(obj, source){
+    for (var prop in source) { 
+      obj[prop] = source[prop];
+    } 
+    return obj;
+  };
+
   // Set aliases, so we can save some typing.
   I18n.t = I18n.translate;
   I18n.l = I18n.localize;
